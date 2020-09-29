@@ -30,6 +30,7 @@ namespace DatingApp.API
             // The connection string is pulled from appsetting.json.
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +44,9 @@ namespace DatingApp.API
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // For now, allow everything...this is returned in the header of the HTTP response.
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthorization();
 
